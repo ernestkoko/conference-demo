@@ -2,12 +2,15 @@ package com.pluralsight.conferencedemo.models;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "speakers")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Speaker {
 
     @Id
@@ -31,6 +34,7 @@ public class Speaker {
     // mappedBy= "speakers" because speakers is the name of the attribute on the Session side
     // same name connects them
     @ManyToMany(mappedBy = "speakers")
+    @JsonIgnore // handles back serialization
     public List<Session> getSessions() {
         return sessions;
     }
